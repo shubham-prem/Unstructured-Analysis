@@ -1,37 +1,19 @@
-# server.R
-x = movies$rating
-minx = min(x)
-maxx = max(x)
+library(shiny)
 
+# Define server logic required to generate and plot a random distribution
 shinyServer(function(input, output) {
-			output$trendPlot <- renderGraph({
-									bins <- input$bins
-									trace1 <- list(x = x,
-																 autobinx = FALSE,
-																 xbins = list(start = minx,
-																							end = maxx,
-																							size =  ((maxx-minx)/bins)
-																 							),
-																 type = "histogram"
-																 )
 
-					data <- list(trace1)
-					layout<- list(xaxis =
-												list(title = "Ratings",
-														 range = c(minx, maxx),
-														 autorange = FALSE,
-														 autotick = FALSE,
-														 tick0 = minx,
-														 dtick = ((maxx-minx)/bins)
-												)
-										)
+  # Expression that generates a plot of the distribution. The expression
+  # is wrapped in a call to renderPlot to indicate that:
+  #
+  #  1) It is "reactive" and therefore should be automatically 
+  #     re-executed when inputs change
+  #  2) Its output type is a plot 
+  #
+  output$distPlot <- renderPlot({
 
-		return(list(
-					 list(id = "trendPlot",
-								task = "newPlot",
-								data = data,
-								layout = layout
-				)
-		))
-	})
+    # generate an rnorm distribution and plot it
+    dist <- rnorm(input$obs)
+    hist(dist)
+  })
 })

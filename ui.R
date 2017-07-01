@@ -1,17 +1,22 @@
-# ui.R
-shinyUI(fluidPage(
-		titlePanel("Movie Ratings!"),
-		sidebarLayout(
-				sidebarPanel(
-						sliderInput("bins",
-												"Number of bins:",
-												min = 1,
-												max = 50,
-												value = 10
-						)
-				),
-		mainPanel(
-					graphOutput("trendPlot")
-		)
-	)
+library(shiny)
+
+
+shinyUI(pageWithSidebar(
+
+ 
+  headerPanel("Hello Shiny!"),
+
+  
+  sidebarPanel(
+    sliderInput("obs", 
+                "Number of observations:", 
+                min = 1,
+                max = 1000, 
+                value = 500)
+  ),
+
+  
+  mainPanel(
+    plotOutput("distPlot")
+  )
 ))
